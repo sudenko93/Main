@@ -28,7 +28,8 @@ public:
 	Init();
 	void InitDialog(void);
 	void CreateHeadline(int);
-	void CreateModel(int);
+	void CreateBitsModel(int, int);
+	void CreateByteModel(int, int);
 	void ParseID(void);
 	~Init();
 };

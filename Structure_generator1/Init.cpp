@@ -95,7 +95,7 @@ void Init::CreateHeadline(int _start)
 	}
 }
 
-void Init::CreateModel(int rej )
+void Init::CreateBitsModel(int rej, int _CurrentByte)
 {
 	string _bitname;
 	int i = 0;
@@ -107,21 +107,37 @@ void Init::CreateModel(int rej )
 		cout << "Ôàéë íå ìîæåò áûòü îòêðûò èëè ñîçäàí\n"; // íàïå÷àòàòü ñîîòâåòñòâóþùåå ñîîáùåíèå
 		return;
 	}
-
 	switch (rej)
 	{
 	case 1:	
+		fout << " " << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		fout << " /* " << _CurrentByte << " Byte							             							*/" << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		fout << " 	union {" << endl;
+		fout << " 		struct {" << endl;
+
+		for (i = 0; i < 8; i++) {
+			cout << "enter name of" << _CurrentByte << " BYTE, [ " << i << " ] bit: " << endl;;
+			cin >> _bitname;
+
+			fout << " 		unsigned _" << _bitname << " : 1; /*	bit" << i << "*/" << endl;
+		}
+		fout << " 		}  bit;" << endl;
+		fout << " 		U8 all;" << endl;
+		fout << " 	} byte_"<< _CurrentByte <<";" << endl;
+		fout << " " << endl;
 		break;
 	case 2:
 		fout << " " << endl;
 		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
-		fout << " /* i Byte							             							*/" << endl;
+		fout << " /* " << _CurrentByte << " Byte							             							*/" << endl;
 		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
 		fout << " 	union {" << endl;
-		fout << "		U8  byte_" << 2 << "; " << endl;
+		fout << "		U8  byte_" << _CurrentByte << "; " << endl;
 		fout << " 		struct {" << endl;
 		for (i = 0; i < 4; i++) {
-			cout << "enter name of [ " << i << " ] bit: " << endl;;
+			cout << "enter name of" << _CurrentByte << " BYTE, [ " << i << " ] bit: " << endl;;
 			cin >> _bitname;
 			fout << " 		/*    Spare bit - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */" << endl;
 			if (i == 0) {
@@ -138,24 +154,24 @@ void Init::CreateModel(int rej )
 			}
 
 			fout << " 		unsigned _"<< _bitname <<" : 2; /*	00 Release "<< _bitname <<"," << endl;
-			fout << " 										01 Activate " << _bitname << " */" << endl;
+			fout << " 							01 Activate " << _bitname << " */" << endl;
 		}
 		fout << " 		}  bit;" << endl;
 		fout << " 		U8 all;" << endl;
-		fout << " 	} byteKnBr_1;" << endl;
+		fout << " 	} byte_" << _CurrentByte << ";" << endl;
 		fout << " " << endl;
 
 		break;
 	case 4:			
 		fout << " " << endl;
 		fout << "/* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/ " << endl;
-		fout << "/* i Bytes	xxxx						          */" << endl;
+		fout << " /* " << _CurrentByte << " Byte							             							*/" << endl;
 		fout << "/* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/ " << endl;
 		fout << "	union { " << endl;
-		fout << "		U8  byte_" << 4 << "; " << endl;
+		fout << "		U8  byte_" << _CurrentByte << "; " << endl;
 		fout << "		struct { " << endl;
 		for (int i = 0; i < 2; i++) {
-			cout << "enter name of [ " << i << " ] bit: " << endl;
+			cout << "enter name of "<< _CurrentByte <<" BYTE, [ " << i << " ] bit: " << endl;
 			cin >> _bitname;
 			fout << " 		/*    Spare bit - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */" << endl;
 			if (i == 0) {
@@ -179,13 +195,61 @@ void Init::CreateModel(int rej )
 		}			
 		fout << " 		} bit;" << endl;
 		fout << " 		U8 all;" << endl;
-		fout << " 	} byteWB_1;" << endl;
+		fout << " 	} byte_" << _CurrentByte << ";" << endl;
 		fout << " " << endl;
 		break;
 	default:
 		break;
 	}
 
+	fout.close();
+
+}
+
+void Init::CreateByteModel(int _ByteLenght , int _CurrentByte)
+{
+	string _bytname;
+	int j = 0;
+	/*ofstream fout(f_name);*/
+	ofstream fout(f_name, ios_base::app); // îòêðûâàåì ôàéë äëÿ äîáàâëåíèÿ èíôîðìàöèè ê êîíöó ôàéëà
+	//fout.open(f_name, ios::app);
+	if (!fout.is_open()) // åñëè ôàéë íåáûë îòêðûò
+	{
+		cout << "Ôàéë íå ìîæåò áûòü îòêðûò èëè ñîçäàí\n"; // íàïå÷àòàòü ñîîòâåòñòâóþùåå ñîîáùåíèå
+		return;
+	}
+	switch (_ByteLenght)
+	{
+	case 1:
+//		fout << " " << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		fout << " /* " << _CurrentByte << " Byte							             							*/" << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		cout << "enter name of" << _CurrentByte << " BYTE: " << endl;;
+		cin >> _bytname;
+		fout << "	U8 _" << _bytname << ";" << endl;
+		break;
+	case 2:
+//		fout << " " << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		fout << " /* " << _CurrentByte << " Byte							             							*/" << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		cout << "enter name of" << _CurrentByte << " BYTE: " << endl;;
+		cin >> _bytname;
+		fout << "	U16 _" << _bytname << ";" << endl;
+		break;
+	case 4:
+//		fout << " " << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		fout << " /* " << _CurrentByte << " Byte							             							*/" << endl;
+		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
+		cout << "enter name of" << _CurrentByte << " BYTE: " << endl;;
+		cin >> _bytname;
+		fout << "	U32 _" << _bytname << ";" << endl;
+		break;
+	default:
+		break;
+	}
 	fout.close();
 
 }
@@ -202,7 +266,7 @@ void Init::ParseID(void)
 			cin >> ArrMes[i][j];
 		if (ArrMes[i][j] == 0) {
 			ArrMes[i][j] = 1;
-			cout << " enter the bit-model for this byte. [1] || [2] || [4]: "; 
+			cout << " enter the bit-model for ["<<j<<"] byte. [1] || [2] || [4]: "; 
 			cin >> k;
 			for (i = 1; i <= (8 / k); i++) {
 				ArrMes[i][j] = k;
@@ -223,17 +287,24 @@ void Init::ParseID(void)
 		}
 		cout << endl;
 	}
-
+	/*Start Create headline*/
 	CreateHeadline(1);
 	for (j = 0; j < _NumberOfBytes; j++) {
 		if (ArrMes[0][j] == 1) {
+			/*Âûäåëåíèå áèòîâûõ êîìïîíåíòîâ ïî 1 â ìàññèâå*/
 			if (ArrMes[0 + 1][j] != 0) {
-				CreateModel(ArrMes[0 + 1][j]);
+				CreateBitsModel(ArrMes[0 + 1][j], j);
 			}
+			/*âûäåëåíèå íàñòîÿùèõ áàéòîâ åäèíè÷íûõ*/
+			else {
+				CreateByteModel(ArrMes[0][j], j);
+			}
+		}else {
+			/*Îáðàáîòêà îñòàëüíûõ áàéòîâ */
+			CreateByteModel(ArrMes[0][j], j);
 		}
 	}
-		//CreateModel(4);
-		//CreateModel(2);
+	/*Finish Create headline*/
 	CreateHeadline(0);
 }
 
