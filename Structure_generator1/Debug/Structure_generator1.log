@@ -1,4 +1,0 @@
-﻿  Init.cpp
-s:\@bkm\work\bkm\gw\generator\structure_generator\structure_generator1\init.cpp(196): warning C4101: _MaxSiseOfBitesInStruct: неиспользованная локальная переменная
-s:\@bkm\work\bkm\gw\generator\structure_generator\structure_generator1\init.cpp(196): warning C4101: _mode: неиспользованная локальная переменная
-  Structure_generator1.vcxproj -> S:\@BKM\WORK\BKM\GW\Generator\Structure_generator\Debug\Structure_generator1.exe
