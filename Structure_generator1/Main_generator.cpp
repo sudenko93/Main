@@ -10,8 +10,12 @@ int main()
 
 	if(init.InitDialog()){
 		init.ParseID();
+		std::cout << "Programm is done\n";
 	}
-	std::cout << "Hello World!\n";
+	else {
+		std::cout << "Programm is fail\n";
+	}
+	//std::cout << "Hello World!\n";
 	system("pause");
 	return 0;
 }

@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 using namespace std;
-enum { Bites = 0, Byte = 1, Word = 2, Qword = 4 };
+enum { Bites = 8, Byte = 1, Word = 2, Qword = 4 };
 //#define MaxCounterOfBytes	8
 //#define MaxAmountOfBites 8
 class Init
@@ -17,19 +17,19 @@ private:
 	string NameOfMessage;
 	string name_list;
 	string f_name;
-	char ID[9];
-	int ByteLineup[8];
+	string ID;
 	int ArrMes[9][8];
 	int BitesStructure[8];
 	/*string ID[8];*/
 	short TypeOfByte;
 	int  MaxCounterOfBytes = 8, MaxAmountOfBites = 8;
 public:
+	 //int i, j, k;
+	/*static int global_tick;*/
 	Init();
 	bool InitDialog();
 	void CreateHeadline(int);
-	void CreateBitsModel(int, int);
-	void CreateByteModel(int, int);
+	int CreateModel(char **Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _balance, int j);
 	void ParseID(void);
 	~Init();
 };
