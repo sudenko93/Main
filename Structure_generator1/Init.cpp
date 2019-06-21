@@ -58,7 +58,7 @@ bool Init::InitDialog(void)
 void Init::CreateHeadline(int _start)
 {
 	int i = 0;
-	string _regName;
+	//string _regName;
 	if (_start == 1) {
 		ofstream fout(f_name, ios_base::app);
 		if (!fout.is_open()) // если файл небыл открыт
@@ -94,8 +94,8 @@ void Init::CreateHeadline(int _start)
 			return;
 		}
 		cout << "enter name of current register: " << endl;
-		cin >> _regName;
-		fout << "} " << _regName << "_REGISTR;" << endl;
+		cin >> RegisterName;
+		fout << "} " << RegisterName << "_REGISTR;" << endl;
 		fout.close();
 
 	}
@@ -347,6 +347,16 @@ void Init::ParseID(void)
 	/*Finish Create headline*/
 	CreateHeadline(0);
 
+
+	/*create defines*/
+
+	ParseDefines(arr_stings, _NumberOfBytes, RegisterName);
+	//int bytePosition = 0;
+	//for (j = 0; j < _NumberOfBytes; j++) {
+	//	pointerForReadNames = CreateDefines(arr_stings, ArrMes[1][j], ArrMes[0][j], pointerForReadNames, bytePosition, j); // pointer automaticly increment in function
+	//	ostatok = row - pointerForReadNames;
+	//	if (ArrMes[0][j] == 8) {}
+	//}
 	 //Start clear memory
 	for (i = 0; i < row; i++) {
 		delete[]arr_stings[i];
@@ -354,6 +364,67 @@ void Init::ParseID(void)
 	delete[]arr_stings;
 	//Finish clear memory
 
+}
+
+int Init::CreateDefines(char ** Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _bytePosition, int j)
+{
+	return 0;
+}
+
+void Init::ParseDefines(char ** Mname, int _NumberOfBytes, string _RegName)
+{
+	int bytePosition = 0, j = 0, i = 0, k = 0, _numberOfTicks;
+	ofstream fout(f_name, ios_base::app); // открываем файл для добавления информации к концу файла
+	if (!fout.is_open()) // если файл небыл открыт
+	{
+		cout << "Файл не может быть открыт или создан\n"; // напечатать соответствующее сообщение
+		return;
+	}
+	for (j = 0; j < _NumberOfBytes; j++) {
+		//for (i = 0; i < 9; i++) {
+			if (ArrMes[0][j] == 1) {
+				fout<<"#define  	"<< Mname[k]<<"  							"<<_RegName<<"."<< Mname[k]<<" /* "<< bytePosition+1 <<" byte  */"<<endl;
+				k++;
+//#define  	ActualEnginePercentTorque  							KnBrEEC1._ActualEnginePercentTorque					/* 	3 byte  */
+
+				//i = 8;
+				bytePosition++;
+			}
+			else if (ArrMes[0][j] == 2) {
+				fout << "#define  	" << Mname[k] << "  							" << _RegName << "." << Mname[k] << " /* " << bytePosition +1 << " byte  */" << endl;
+				k++;
+				//#define  	ActualEnginePercentTorque  							KnBrEEC1._ActualEnginePercentTorque					/* 	3 byte  */
+
+								//i = 8;
+				bytePosition+=2;
+			}
+			else if (ArrMes[0][j] == 4) {
+				fout << "#define  	" << Mname[k] << "  							" << _RegName << "." << Mname[k] << " /* " << bytePosition+1 << " byte  */" << endl;
+				k++;
+				//i = 8;
+				bytePosition += 4;
+			}
+			else if (ArrMes[0][j] == 8) {
+				fout << "#define		" << _RegName << "_REGISTR_All_" << bytePosition+1 << " 								" << _RegName << ".byteKnBr_" << bytePosition +1 << ".all         					/* 	" << bytePosition +1 << " byte	 */" << endl;
+	/*			i++;*/
+				k++;
+				_numberOfTicks = MaxAmountOfBites / ArrMes[1][j];
+				int weight = 0;
+
+				for (i = 0; i < _numberOfTicks; i++){
+					fout << "#define  	" << _RegName << "_" << Mname[k] << "							" << _RegName << ".byteKnBr_" << bytePosition  +1<< ".bit._" << Mname[k] << "			/*"<<i* weight <<"    - bit */ " << endl;
+					k++;
+					weight = MaxAmountOfBites / _numberOfTicks;
+				}
+				bytePosition++;
+			}
+			else {
+			}
+
+
+	/*	}*/
+	}
+	fout.close();
 }
 
 

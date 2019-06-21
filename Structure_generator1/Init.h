@@ -18,6 +18,7 @@ private:
 	string name_list;
 	string f_name;
 	string ID;
+	string RegisterName;
 	int ArrMes[9][8];
 	int BitesStructure[8];
 	/*string ID[8];*/
@@ -31,6 +32,8 @@ public:
 	void CreateHeadline(int);
 	int CreateModel(char **Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _balance, int j);
 	void ParseID(void);
+	int CreateDefines(char **Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _bytePosition, int j);
+	void ParseDefines(char **Mname, int _NumberOfBytes,  string _RegName);
 	~Init();
 };
 //#endif
