@@ -5,19 +5,46 @@
 //#include <iostream>
 #include "Init.h"
 Init init;
+char c;
 int main()
 {
 
-	if(init.InitDialog()){
-		init.ParseID();
-		std::cout << "Programm is done\n";
-	}
-	else {
-		std::cout << "Programm is fail\n";
-	}
-	//std::cout << "Hello World!\n";
-	system("pause");
-	return 0;
+	//if(init.InitDialog()){
+	//	init.ParseID();
+	//	std::cout << "Programm is done\n";
+	//}
+	//else {
+	//	std::cout << "Programm is fail\n";
+	//}
+	////std::cout << "Hello World!\n";
+	//system("pause");
+	//return 0;
+
+	do
+	{
+		 c = 'n'; // обновление с, в случае хождения по циклу
+
+		 if (init.InitDialog()) {
+			 init.ParseID();
+			 std::cout << "Programm is done\n";
+		 }
+		 else {
+			 std::cout << "Programm is fail\n";
+		 }
+
+			cout << "Do you want to continue [ y ]? ";
+			cin.ignore(cin.rdbuf()->in_avail());  // пропустить все оставшиеся символы , get не перехватывает символ ввод ввиду наличия в буфере чтения /n
+			cin.get(c);
+			if (c != 'y')
+			{
+				return 0;
+			}
+	
+
+		/*	system("pause");*/
+			/*return 0;*/
+	} while (c == 'y');
+
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

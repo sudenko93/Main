@@ -21,6 +21,9 @@
     <ClInclude Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\Init.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\pch.cpp">
@@ -32,5 +35,10 @@
     <ClCompile Include="Main_generator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\Structure_generator1.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

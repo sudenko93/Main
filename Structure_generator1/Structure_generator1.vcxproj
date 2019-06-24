@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\Init.h" />
     <ClInclude Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\pch.h" />
+    <ClInclude Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\Init.cpp" />
@@ -163,6 +164,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Main_generator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\..\..\%40BKM\WORK\SSA\Main\Structure_generator1\Structure_generator1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

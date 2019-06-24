@@ -26,13 +26,11 @@ private:
 	int  MaxCounterOfBytes = 8, MaxAmountOfBites = 8;
 public:
 	 //int i, j, k;
-	/*static int global_tick;*/
 	Init();
 	bool InitDialog();
 	void CreateHeadline(int);
 	int CreateModel(char **Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _balance, int j);
 	void ParseID(void);
-	int CreateDefines(char **Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _bytePosition, int j);
 	void ParseDefines(char **Mname, int _NumberOfBytes,  string _RegName);
 	~Init();
 };

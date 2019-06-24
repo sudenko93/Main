@@ -4,8 +4,6 @@
 #include <iomanip>
 #define demo
 
-
-static int global_tick = 0;
 Init::Init()
 {
 	//i = 0, j = 0, k = 0;
@@ -162,7 +160,6 @@ int Init::CreateModel(char ** Mname, int bitStructureModel, int Aj, int __pointe
 
 			fout << " 		unsigned _" << Mname[pointForRead] << " : 1; /*	bit" << i << "*/" << endl;
 			pointForRead++;
-			//global_tick++;
 		}
 		fout << " 		}  bit;" << endl;
 		fout << " 		U8 all;" << endl;
@@ -251,16 +248,35 @@ int Init::CreateModel(char ** Mname, int bitStructureModel, int Aj, int __pointe
 void Init::ParseID(void)
 {
 	const int ROWS = 9, ÑOLUMNS = 8;
-	static int i = 0, j = 0, k = 0;
-	int  _mode, _MaxSiseOfBitesInStruct;
+	int i = 0, j = 0, k = 0; //! static
+	int  _mode, _MaxSiseOfBitesInStructá, _testread , _temp;
 	static int _NumberOfBytes;
 	int N = 16;   //êîëè÷åñòâî ñèìâîëîâ â ñòðîêå
 	int row =0, pointerForReadNames =0, ostatok = 0;
-
+	/*memset(ArrMes, 0, sizeof(ArrMes[0][0]));*/
 	int _balance = Lenght;
 	while (_balance) {
-		cout << "Insert type of Byte : Bites = [0], Byte =[1] , Word = [2], Qword = [4]) :  ";
-		cin >> ArrMes[i][j];
+		cout << "Insert type of Byte : Bites = [8], Byte =[1] , Word = [2], Qword = [4]) :  ";
+		cin >> _temp;
+		_testread =_temp;
+		try
+		{
+			if (_testread == 8) {
+				_testread = 1;
+			}
+			if (_testread <0|| _testread > 4 || (_balance - _testread < 0))
+			{
+				throw (_testread);
+			}
+			ArrMes[i][j] = _temp;
+		}
+		catch (int _testread)
+		{
+			cout << "Balance now [" << _balance << "], please insert correct variable! Max amount of bytes NOW can be : " << _balance << endl;
+			continue;
+		}
+
+		//cin >> ArrMes[i][j];
 		if (ArrMes[i][j] == 8) {
 			//ArrMes[i][j] = 8;
 			cout << " enter the bit-model for [" << j << "] byte. [1] || [2] || [4]: ";
@@ -280,6 +296,7 @@ void Init::ParseID(void)
 		j++;
 		_NumberOfBytes++;
 	}
+	//cout << sizeof(ArrMes[0][0])<<  "Razmer"<<endl;
 	/* Îòîáðàæåíèå ñòðóêòóðû */
 	for (i = 0; i < 9; i++) {
 		for (j = 0; j < 8; j++) {
@@ -351,12 +368,7 @@ void Init::ParseID(void)
 	/*create defines*/
 
 	ParseDefines(arr_stings, _NumberOfBytes, RegisterName);
-	//int bytePosition = 0;
-	//for (j = 0; j < _NumberOfBytes; j++) {
-	//	pointerForReadNames = CreateDefines(arr_stings, ArrMes[1][j], ArrMes[0][j], pointerForReadNames, bytePosition, j); // pointer automaticly increment in function
-	//	ostatok = row - pointerForReadNames;
-	//	if (ArrMes[0][j] == 8) {}
-	//}
+
 	 //Start clear memory
 	for (i = 0; i < row; i++) {
 		delete[]arr_stings[i];
@@ -364,11 +376,6 @@ void Init::ParseID(void)
 	delete[]arr_stings;
 	//Finish clear memory
 
-}
-
-int Init::CreateDefines(char ** Mname, int bitStructureModel, int Aj, int _pointerForReadNames, int _bytePosition, int j)
-{
-	return 0;
 }
 
 void Init::ParseDefines(char ** Mname, int _NumberOfBytes, string _RegName)
