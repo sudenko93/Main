@@ -2,7 +2,7 @@
 #include "Init.h"
 #include <fstream> 
 #include <iomanip>
-#define demo
+//#define demo
 
 Init::Init()
 {
@@ -172,7 +172,7 @@ int Init::CreateModel(char ** Mname, int bitStructureModel, int Aj, int __pointe
 		fout << " /* " << Mname[__pointerForReadNames] << " Byte							             							*/" << endl;
 		fout << " /* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/" << endl;
 		fout << " 	union {" << endl;
-		fout << "		U8  byte_" << j << "; " << endl;
+		//fout << "		U8  byte_" << j << "; " << endl;
 		fout << " 		struct {" << endl;
 		for (i = 0; i < 4; i++) {
 			fout << " 		/*    Spare bit - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */" << endl;
@@ -189,8 +189,10 @@ int Init::CreateModel(char ** Mname, int bitStructureModel, int Aj, int __pointe
 				fout << " 		/*  6,7	   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */" << endl;
 			}
 
-			fout << " 		unsigned _" << Mname[pointForRead] << " : 2; /*	00 Release " << Mname[pointForRead] << "," << endl;
-			fout << " 							01 Activate " << Mname[pointForRead] << " */" << endl;
+			fout << " 		unsigned _" << Mname[pointForRead] << " : 2; /*	00 Not active " << Mname[pointForRead] << "," << endl;
+			fout << " 							01 Active " << Mname[pointForRead] << endl;
+			fout << " 							10 Error " << Mname[pointForRead] << endl;
+			fout << " 							11 not available " << Mname[pointForRead] << " */" << endl;
 			pointForRead++;
 		}
 		fout << " 		}  bit;" << endl;
@@ -205,7 +207,7 @@ int Init::CreateModel(char ** Mname, int bitStructureModel, int Aj, int __pointe
 		fout << " /* " << Mname[__pointerForReadNames] << " Byte							             							*/" << endl;
 		fout << "/* •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••*/ " << endl;
 		fout << "	union { " << endl;
-		fout << "		U8  byte_" << j << "; " << endl;
+		//fout << "		U8  byte_" << j << "; " << endl;
 		fout << "		struct { " << endl;
 		for (int i = 0; i < 2; i++) {
 			fout << " 		/*    Spare bit - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */" << endl;
@@ -251,7 +253,7 @@ void Init::ParseID(void)
 	int i = 0, j = 0, k = 0; //! static
 	int  _mode, _MaxSiseOfBitesInStructá, _testread , _temp;
 	static int _NumberOfBytes;
-	int N = 16;   //êîëè÷åñòâî ñèìâîëîâ â ñòðîêå
+	int N = 20;   //êîëè÷åñòâî ñèìâîëîâ â ñòðîêå
 	int row =0, pointerForReadNames =0, ostatok = 0;
 	/*memset(ArrMes, 0, sizeof(ArrMes[0][0]));*/
 	int _balance = Lenght;
@@ -368,7 +370,12 @@ void Init::ParseID(void)
 	/*create defines*/
 
 	ParseDefines(arr_stings, _NumberOfBytes, RegisterName);
-
+	///*î÷èñòêà ìàññèìà äëÿ ïîâòîðíîãî èñïîëüçîâàíèÿ*/
+	//for (i = 0; i < 9; i++) {
+	//	for (j = 0; j < 8; j++) {
+	//		ArrMes[i][j] = 0;
+	//	}
+	//}
 	 //Start clear memory
 	for (i = 0; i < row; i++) {
 		delete[]arr_stings[i];
@@ -412,14 +419,16 @@ void Init::ParseDefines(char ** Mname, int _NumberOfBytes, string _RegName)
 				bytePosition += 4;
 			}
 			else if (ArrMes[0][j] == 8) {
-				fout << "#define		" << _RegName << "_REGISTR_All_" << bytePosition+1 << " 								" << _RegName << ".byteKnBr_" << bytePosition +1 << ".all         					/* 	" << bytePosition +1 << " byte	 */" << endl;
+				fout << "#define		" << _RegName << "_REGISTR_All_" << bytePosition+1 << " 								" << _RegName << ".byte_"<< bytePosition + 1 << ".all         					/* 	" << bytePosition +1 << " byte	 */" << endl;
+				//fout << "#define		" << _RegName << "_REGISTR_All_" << bytePosition+1 << " 								" << _RegName << ".byteKnBr_" << bytePosition +1 << ".all         					/* 	" << bytePosition +1 << " byte	 */" << endl;
 	/*			i++;*/
 				k++;
 				_numberOfTicks = MaxAmountOfBites / ArrMes[1][j];
 				int weight = 0;
 
 				for (i = 0; i < _numberOfTicks; i++){
-					fout << "#define  	" << _RegName << "_" << Mname[k] << "							" << _RegName << ".byteKnBr_" << bytePosition  +1<< ".bit._" << Mname[k] << "			/*"<<i* weight <<"    - bit */ " << endl;
+					fout << "#define  	" << _RegName << "_" << Mname[k] << "							" << _RegName << ".byte_" << bytePosition  +1<< ".bit._" << Mname[k] << "			/*"<<i* weight <<"    - bit */ " << endl;
+					//fout << "#define  	" << _RegName << "_" << Mname[k] << "							" << _RegName << ".byteKnBr_" << bytePosition  +1<< ".bit._" << Mname[k] << "			/*"<<i* weight <<"    - bit */ " << endl;
 					k++;
 					weight = MaxAmountOfBites / _numberOfTicks;
 				}
