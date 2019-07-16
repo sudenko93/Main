@@ -397,7 +397,7 @@ void Init::ParseDefines(char ** Mname, int _NumberOfBytes, string _RegName)
 	for (j = 0; j < _NumberOfBytes; j++) {
 		//for (i = 0; i < 9; i++) {
 			if (ArrMes[0][j] == 1) {
-				fout<<"#define  	"<< Mname[k]<<"  							"<<_RegName<<"."<< Mname[k]<<" /* "<< bytePosition+1 <<" byte  */"<<endl;
+				fout<<"#define  	"<< Mname[k]<<"  							"<<_RegName<<"._"<< Mname[k]<<" /* "<< bytePosition+1 <<" byte  */"<<endl;
 				k++;
 //#define  	ActualEnginePercentTorque  							KnBrEEC1._ActualEnginePercentTorque					/* 	3 byte  */
 
@@ -405,7 +405,7 @@ void Init::ParseDefines(char ** Mname, int _NumberOfBytes, string _RegName)
 				bytePosition++;
 			}
 			else if (ArrMes[0][j] == 2) {
-				fout << "#define  	" << Mname[k] << "  							" << _RegName << "." << Mname[k] << " /* " << bytePosition +1 << " byte  */" << endl;
+				fout << "#define  	" << Mname[k] << "  							" << _RegName << "._" << Mname[k] << " /* " << bytePosition +1 << " byte  */" << endl;
 				k++;
 				//#define  	ActualEnginePercentTorque  							KnBrEEC1._ActualEnginePercentTorque					/* 	3 byte  */
 
@@ -413,7 +413,7 @@ void Init::ParseDefines(char ** Mname, int _NumberOfBytes, string _RegName)
 				bytePosition+=2;
 			}
 			else if (ArrMes[0][j] == 4) {
-				fout << "#define  	" << Mname[k] << "  							" << _RegName << "." << Mname[k] << " /* " << bytePosition+1 << " byte  */" << endl;
+				fout << "#define  	" << Mname[k] << "  							" << _RegName << "._" << Mname[k] << " /* " << bytePosition+1 << " byte  */" << endl;
 				k++;
 				//i = 8;
 				bytePosition += 4;
